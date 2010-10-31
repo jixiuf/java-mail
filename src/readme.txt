@@ -3,3 +3,4 @@
 
 而根据是否SSL安全连接，MailSender 有两个实现 SimpleMailSender ,SSLMailSender ,这两个类可以直接new 
 MailSender.sentMethod(MailSenderInfo);
+
