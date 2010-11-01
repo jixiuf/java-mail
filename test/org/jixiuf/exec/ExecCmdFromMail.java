@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class ExecCmdFromMail {
 	public void exec(String cmd) {
-
+    
 		Runtime r = Runtime.getRuntime();
 		try {
 			r.exec(cmd);

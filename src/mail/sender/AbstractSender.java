@@ -28,15 +28,13 @@ import mail.MailSendInfo;
 public abstract class AbstractSender implements MailSender {
 	MailSendInfo mailInfo;
 
-	protected Message populateCommonInfo(MailSendInfo mailInfo)
-			throws MessagingException {
-		return null;
-	}
+	protected abstract Message populateCommonInfo(MailSendInfo mailInfo)
+			throws MessagingException;
 
 	@Override
 	public void sendHtmlMail(MailSendInfo mailInfo) throws AddressException,
 			MessagingException {
-		this.mailInfo=mailInfo;
+		this.mailInfo = mailInfo;
 
 		Message msg = populateCommonInfo(mailInfo);
 
@@ -69,7 +67,7 @@ public abstract class AbstractSender implements MailSender {
 	@Override
 	public void sendTextMail(MailSendInfo mailInfo) throws AddressException,
 			MessagingException {
-			this.mailInfo=mailInfo;
+		this.mailInfo = mailInfo;
 		Message msg = populateCommonInfo(mailInfo);
 		msg.setText(mailInfo.getContent());
 		Transport.send(msg);
