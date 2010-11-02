@@ -1,10 +1,12 @@
-package mail;
+package sender;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import mail.MailSendInfo;
 import mail.sender.MailSender;
 import mail.sender.SSLMailSender;
 import mail.sender.SimpleMailSender;
@@ -24,14 +26,13 @@ public class TestSimpleSendMail {
 		mailInfo.setSubject("simple send mailby java and sendmail without ssl ");
 		mailInfo.setContent("simple  send mail by  java and sendmail without ssl ");
 		mailInfo.setDebug(true);
-	 
-	 
+
 		// 注意这里用的是有SSL验证的Sender
 		MailSender sender = new SimpleMailSender();
 		try {
 			// 发送两次，一次以html格式（此时附件会被发送），一次文本
 			// sender.sendTextMail(mailInfo);
-			//sender.sendHtmlMail(mailInfo);
+			// sender.sendHtmlMail(mailInfo);
 			sender.sendTextMail(mailInfo);
 			System.out.println("已发送");
 		} catch (AddressException e) {
@@ -39,6 +40,8 @@ public class TestSimpleSendMail {
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			System.err.println(" 发送失败2");
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

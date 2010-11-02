@@ -11,7 +11,7 @@ public class MailReceiveInfo {
 	private String protocol = MailReceiveInfo.PROTOCOL_POP3;
 	private int mailServerPort = 110;
 	private boolean debug = false;
-
+																
 	// 登陆邮件发送服务器的用户名和密码
 	private String userName = "";
 	private String password = "";
@@ -27,7 +27,7 @@ public class MailReceiveInfo {
 	public int getMailServerPort() {
 		return mailServerPort;
 	}
-
+		
 	public void setMailServerPort(int mailServerPort) {
 		this.mailServerPort = mailServerPort;
 	}

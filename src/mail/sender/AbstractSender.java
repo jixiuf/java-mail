@@ -1,6 +1,7 @@
 package mail.sender;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -29,36 +30,38 @@ public abstract class AbstractSender implements MailSender {
 	MailSendInfo mailInfo;
 
 	protected abstract Message populateCommonInfo(MailSendInfo mailInfo)
-			throws MessagingException;
+			throws MessagingException, FileNotFoundException;
 
 	@Override
 	public void sendHtmlMail(MailSendInfo mailInfo) throws AddressException,
-			MessagingException {
+			MessagingException, FileNotFoundException {
 		this.mailInfo = mailInfo;
 
 		Message msg = populateCommonInfo(mailInfo);
+		if (mailInfo.getEmailFormatFile() == null) {
+			Multipart mainPart = new MimeMultipart();
+			// 创建一个包含HTML内容的MimeBodyPart
 
-		Multipart mainPart = new MimeMultipart();
-		// 创建一个包含HTML内容的MimeBodyPart
+			// 设置信件的附件
+			if (mailInfo.getAttachFileNames() != null) {
+				for (File f : mailInfo.getAttachFileNames()) {
+					BodyPart filePart = new MimeBodyPart();
+					DataHandler dh = new DataHandler(new FileDataSource(f));
+					filePart.setFileName(f.getName());//
+					filePart.setDataHandler(dh);
 
-		// 设置信件的附件
-		if (mailInfo.getAttachFileNames() != null) {
-			for (File f : mailInfo.getAttachFileNames()) {
-				BodyPart filePart = new MimeBodyPart();
-				DataHandler dh = new DataHandler(new FileDataSource(f));
-				filePart.setFileName(f.getName());//
-				filePart.setDataHandler(dh);
-
-				mainPart.addBodyPart(filePart);
+					mainPart.addBodyPart(filePart);
+				}
 			}
-		}
 
-		BodyPart html = new MimeBodyPart();
-		// 设置HTML内容
-		html.setContent(mailInfo.getContent(), "text/html; charset=utf-8");
-		mainPart.addBodyPart(html);
-		// 将MiniMultipart对象设置为邮件内容
-		msg.setContent(mainPart);
+			BodyPart html = new MimeBodyPart();
+			// 设置HTML内容
+			html.setContent(mailInfo.getContent(), "text/html; charset=utf-8");
+			mainPart.addBodyPart(html);
+			// 将MiniMultipart对象设置为邮件内容
+			msg.setContent(mainPart);
+
+		}
 
 		Transport.send(msg);
 
@@ -66,10 +69,12 @@ public abstract class AbstractSender implements MailSender {
 
 	@Override
 	public void sendTextMail(MailSendInfo mailInfo) throws AddressException,
-			MessagingException {
+			MessagingException, FileNotFoundException {
 		this.mailInfo = mailInfo;
 		Message msg = populateCommonInfo(mailInfo);
-		msg.setText(mailInfo.getContent());
+		if (mailInfo.getEmailFormatFile() == null) {
+			msg.setText(mailInfo.getContent());
+		}
 		Transport.send(msg);
 
 	}

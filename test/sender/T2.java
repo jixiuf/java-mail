@@ -1,4 +1,4 @@
-package mail;
+package sender;
 
 import java.util.Properties;
 
@@ -8,7 +8,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class TestSendMail {
+public class T2 {
 	String host = "";
 	String user = "";
 	String password = "";
@@ -48,11 +48,11 @@ public class TestSendMail {
 	}
 
 	public static void main(String args[]) {
-		TestSendMail sm = new TestSendMail();
-		sm.setHost("mail.localhost");// 指定要使用的邮件服务器
-		sm.setAccount("mail1@localhost", "mail1");// 指定帐号和密码
-		
-		sm.send("mail1@localhost", "mail1@localhost", "title", "new java");
+		T2 sm = new T2();
+		sm.setHost("smtp.gmail.com");// 指定要使用的邮件服务器
+		sm.setAccount("jixiuf@gmail.com", "21709891");// 指定帐号和密码
+
+		sm.send("jixiuf@gmail.com", "jixiuf@qq.com", "title", "new java");
 	}
 
 }
